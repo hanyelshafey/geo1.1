@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'proberty',
+    'blog',
+    'about',
 
 ]
 
@@ -77,8 +80,8 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'geogeo',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'geo2',
         'HOST': 'localhost',
         'PORT': '5432',
         'USER': 'postgres',
