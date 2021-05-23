@@ -1,0 +1,159 @@
+[MUSIC] In this lecture,
+you will study basics of Business GIS, which are Proximity Analysis and
+Accessibility Analysis. For Business GIS, the very first
+step is to figure out trade area, which is the area from which the store
+draws the most of its customers. And within which market penetration
+would be expected the most. For analyzing trade area,
+proximity analysis can be used. And accessibility analysis would
+be take one more step further to overcome limitations
+of proximity analysis. And present a more comprehensive insight
+of space associations of supply and demand. I've brought in the previous
+example presented in the very first lecture of this course,
+while we discussed special data science The question was,
+what is the revenue estimation of a new grocery store at the red arrow
+located in Evanston, IL? There are two approaches
+to answer the question. Causality approach and
+data mining approach. For causality approach, we may need to delineate trade
+area in the very first place. Let us assume that the blue line
+represents the trade area of a new grocery market. Actually, it's an example
+of proximity analysis, then we should collect additional
+information on potential customers, competing stores,
+field surveys, transportation, real estate price, and
+the new development and many others. Then we could come up with revenue
+estimation of the new store. Proximity analysis is
+by definition spatial analysis to determine
+distance relationship generally finding the closest pair between a selected feature and other features. There are two type of proximity analysis. One is to start from demand side
+the other one is from supply side. Find the closest stores from
+all the customer locations, that's the approach from demand side. On the other hand,
+delineating area coverage to which a given store has the minimum distance is
+the approach from supply side, confusing? Let's take a look at real-world axample,
+proximity to emergency rooms. The example is composed of district
+centers as customers locations, and locations of general hospitals
+with emergency rooms in Seoul Korea. Now, we can apply proximity analysis from
+demand side, which is customer's location. Basically, potential
+patient's locations and which is aggregated to
+the district centers. From each district center
+finding the closest general hospital with ER(Emergency Room) using
+simple geoprocessing tools. And the pairs are the result
+of the proximity analysis. Now you are looking at an example of
+proximity analysis for the entire Seoul. Pairing district center of black dot and
+the closest hospital with emergency room is the outcome of proximity
+analysis from demand side. One more thing should be noted that
+Euclidean distance was used for finding closest hospital
+from district center. However, there's a more realistic
+option using network distance, which can reflect
+the transportation condition. With respect to same dataset, Thiessen polygons are produced
+from locations of emergency rooms. Thiessen polygon is also known as Voronoi
+diagram which is partitioning of plane with input points into  polygons, such that
+each polygon contains exactly one point. And any location in a given
+polygon is closer to its associated point than any other. So in the example, Thiessen
+polygon is the approximate area or area of influence from each general
+hospital which with emergency rooms. Which is an outcome,
+a proximity analysis from supply side. Now, you're looking at Thiessen
+polygons with respect to general hospitals with ER in Seoul,
+Korea as a result of proximity analysis. How do you like the results? Either analysis from supply side or
+from demand side. Generally speaking, proximity
+analysis is somewhat rudimentary and considers only distance or
+travelling time in defining trade area. However, we should consider
+other attraction factors and comprehensive analysis of both supply and demand
+together, for more practical business analysis. For that,
+the problems of proximity analysis could also be resolved by
+accessibility analysis. Accessibility is by definition,
+relative ease at which a service can be reached
+from given locations. Accessibility can be determined
+by the distribution of supply and demand and how they are related in space. So it is a classical example of
+spatial data science problem. Which is applicable to
+trade area analysis and resource distribution planning and so on. Supply-demand ratio is the simplest
+method for accessibility analysis. Which computes supply to
+demand ratio in an area, usually with respect to
+administrative district. However, the method have
+two serious shortcomings. First, it cannot review any
+variation within the areas. When the area is very large,
+it cannot reflect the reality. Second, it assumes no
+activity over the boundary. Demand is supported by supply only
+within areas which is far from realistic. You're looking at ER capacity of
+hospital to population ratio with respect to administrative district of Seoul,
+as an example of supply to demand ratio. The limitations of supply-demand
+ratio can be resolved by Floating Catchment Analysis(FCA). Instead of given areas, FCA defines a catchment
+area around each locations. And compute supply to demand ratio
+with respect to catchment area. The catchment area will float
+from one location to another. The boundary of catchment area can
+be delineated with the radius, travel distance or travel time. The figures illustrate examples
+of catchment area with radius and travel time, and
+two different outcome of R1 and R2. FCA method is much more improved
+over simple supply to demand ratio. However, it also has two logical problems. First, the distance between a supply and a demand within a catchment could
+be farther than a given threshold. Second, our supply center could be
+included in a multiple catchment. Which means that availability
+over supply centers, for example,
+ER capacity of hospital should be somehow discounted
+by the competition for it's service of surrounding demands. So for that 2-Step
+Floating Catchment Analysis was developed in order to overcome
+the problems of simple FCA. The solution requires two steps. First, applying supply to
+demand ratio in the catchment defined by each supplies
+center j which produce Rj. Second, find and sum all the js in
+the catchment of demand location i. Which produce AiF in the equation, which is accessibility
+of a demand location i Certainly a large value of AiF
+represents a better accessibility. For your understanding,
+I brought in an example. In the brown catchment of S2,
+two district centers, D1 and D2 of black dot are included. For ER capacity of S2
+is divided by the population of the two districts, the result is R2. Likewise we can apply the same computation
+to S1 with green catchment and S2 with blue catchment. For each supply center, now we have
+supply to demand ratio, R1, R2, R3. For the second step, in a new
+a catchment in in green color around D1. Demand center,
+all the R values are added up and it is A1F, which is the accessibility
+of D1 from 2-step FCA. [SOUND] The accessibility can be also formulated by gravity model, which mimic gravitational
+interaction between two places. Like FCA, it also has two versions,
+single step or two steps. The single step also known as
+potential model is with respect to each demand at center i. The supplies from surrounding supply
+location j discounted by the inverse of the distance. Here, we assume that
+the beta is equals to 1. And the discounted supplies
+are all added up, and Ai is the accessibility
+of the demand center i. However, the potential
+model does not account for the demand side just like
+single step FCA method. So the potential model can be improved
+by considering competition for supplies among demand
+centers just 2-step FCA. The gravity-based index of accessibility
+AIG formulates the effect in terms of Vj, which is demand potential of
+supply location j. The demand from surrounding demand
+locations are discounted by the inverse of the distance, the discounted demands
+are all added up and you can get Vj. The Vj divided by discounted
+supply in previous model, now you have gravity based
+index of accessability, AIG. Again, here's an example. We have to start to compute
+competition for supplies. So with respect to S1, S2, S3,
+demand potential V can be computed. For example,
+S2 has two competing demand center, D1, D2 and the distance of 0.3 kilometer and
+1.9 kilometer. So V2 can be computed by adding
+up the two discounted demands, likewise we compute V1 and V3. Then the demand potential divide each
+discounter supply, the terms added up. And now you can get a gravity-based
+index of accessibility of demand center D1 in
+the equation which is 0.002983. [SOUND] The two major approaches of
+accessibility are 2-step FCA and gravity-based index of accessibility. As you recognize, there are very
+similar to each other in computation. In reality, 2-step FCA ia a special
+case of the gravity-based method. The distance factors
+namely dij to minus beta, dkj to minus beta are only difference in
+the two equations, in the two models. So if the distance factor are removed
+from gravity model, they become identical. The two methods are applied to the test
+dataset of ER capacity of general hospitals and
+population of district in Seoul, Korea. In order to compute the accessibility
+of the ER for each district, For 2-step FCA five minutes
+travel distance were applied. And for gravity based approach,
+beta was set to 0.8. You are looking at
+accessibilty map produced by two methods. Then now your question should be
+which is better than the other? Actually it is a tough question, but generally 2-step FCA is
+preferred in most applications. Even though gravity-based
+index of accessibility is theoretically more
+sound than 2-step FCA. However first of all,
+gravity-based approach has a tendency to inflate accessibilty
+in poorly-accessed area and it generally requires large computation. Also, another problem is
+the distance friction factor, here the beta is the governing factor
+of gravity based approach but it is extremely difficult to determine
+the value in an appropriate manner. In this lecture, you studied proximity
+analysis and accessibility analysis. The one includes consumer-based
+analysis and store-based analysis, which are related to
+the delineation of trade area. The other includes supply to demand ratio, as the simplest version of
+accessibility analysis, 2-step FCA and gravity-based index of accessibility
+were introduced as more advanced and comprehensive method for
+accessibility analysis. This is the end of this lecture. It might be somewhat complicated, but this lecture will be successful
+if you could see the value and potential of spacial data science,
+particularly for business applications. Bye now, and
+hopefully see you all in the next lecture.
